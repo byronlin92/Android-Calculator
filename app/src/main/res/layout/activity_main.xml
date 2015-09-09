@@ -59,7 +59,7 @@
         android:layout_alignTop="@+id/button3"
         android:layout_toRightOf="@+id/button3"
         android:layout_toEndOf="@+id/button3"
-        android:onClick="onAdd" />
+        android:onClick="onOperator" />
 
     <Button
         android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
         android:layout_alignBottom="@+id/button7"
         android:layout_toRightOf="@+id/button3"
         android:layout_toEndOf="@+id/button3"
-        android:onClick="onSubtract" />
+        android:onClick="onOperator" />
 
     <Button
         android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
         android:layout_toRightOf="@+id/button12"
         android:layout_toEndOf="@+id/button12"
         android:nestedScrollingEnabled="true"
-        android:onClick="onMultiply" />
+        android:onClick="onOperator" />
 
     <Button
         android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
         android:layout_below="@+id/button10"
         android:layout_toRightOf="@+id/button10"
         android:layout_toEndOf="@+id/button10"
-        android:onClick="onDivide" />
+        android:onClick="onOperator" />
 
     <Button
         android:layout_width="wrap_content"
@@ -171,7 +171,7 @@
         android:layout_toRightOf="@+id/button7"
         android:layout_toEndOf="@+id/button7"
         android:nestedScrollingEnabled="true"
-        android:onClick="onAllClear" />
+        android:onClick="onOperator" />
 
     <Button
         android:layout_width="wrap_content"
@@ -182,5 +182,27 @@
         android:layout_toRightOf="@+id/button11"
         android:layout_toEndOf="@+id/button11"
         android:nestedScrollingEnabled="true"
-        android:onClick="onEquals" />
+        android:onClick="onOperator" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="."
+        android:id="@+id/button17"
+        android:layout_below="@+id/button12"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onDecimal" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(-/+)"
+        android:id="@+id/button18"
+        android:layout_toRightOf="@+id/button17"
+        android:layout_alignBottom="@+id/button17"
+        android:layout_toLeftOf="@+id/button14"
+        android:layout_toStartOf="@+id/button14"
+        android:onClick="onNegative" />
 </RelativeLayout>

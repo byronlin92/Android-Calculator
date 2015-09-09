@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean containsDecimal = false;
     private boolean reset = true;
-    private float RunningTotal = 0; //total value, needs to be float for decimal
-    private float SelectNumber; //current number selected
-    private int method; //1 = multiply, 2 = divide, 3 = subtract, 4 = add
+    private double runningTotal = 0; //total value, needs to be float for decimal
+    private double selectNumber; //current number selected
+    private int operator; //1 = multiply, 2 = divide, 3 = subtract, 4 = add
+    private int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,167 +50,92 @@ public class MainActivity extends AppCompatActivity {
         String bText = button.getText().toString(); //get value from button
         int Number = Integer.parseInt(bText);
 
-        //for multi digit numbers, eg press 2,1: SelectNumber = 0*10 =0 + 2 = 2
-        //                                       SelectNumber = 2*10 = 20 + 1 = 21
-        SelectNumber = SelectNumber * 10;
-        SelectNumber = SelectNumber + Number;
+        //if add decimal, make following number inputs behind decimal to be number/10^i, where i = 1 and increments
+        if (containsDecimal) {
+            selectNumber = selectNumber +  Number/Math.pow(10, i);
+            i++;
 
+        } else
+         {
+            //for multi digit numbers, eg press 2,1: SelectNumber = 0*10 = 0 + 2 = 2
+            //                                       SelectNumber = 2*10 = 20 + 1 = 21
+            selectNumber = selectNumber * 10;
+            selectNumber = selectNumber + Number;
+        }
         //print it on screen
         TextView myTextView = (TextView)
                 findViewById(R.id.textView);
-        myTextView.setText(Float.toString(SelectNumber));
+        myTextView.setText(Double.toString(selectNumber));
     }
 
-
-
-    public void onAdd (View v) {
-        if (reset == true) {
-            RunningTotal = SelectNumber; //runningtotal = 2
-            reset = false;
-        }
-        else {
-            switch (method) {
-                case 1: //multiply
-                    RunningTotal = RunningTotal * SelectNumber;
-                    break;
-                case 2:
-                    RunningTotal = RunningTotal / SelectNumber;
-                    break;
-                case 3:
-                    RunningTotal = RunningTotal - SelectNumber;
-                    break;
-                case 4:
-                    RunningTotal = RunningTotal + SelectNumber;
-                    break;
-                default:
-                    break;
-            }
-        }
-        method = 4; //now set to add
-        SelectNumber = 0;
+    public void onDecimal (View v){
+        containsDecimal = true;
 
     }
 
-    public void onSubtract(View v){
-        if (reset == true) {
-            RunningTotal = SelectNumber;
-            reset = false;
-        }
-        else {
-            switch (method) {
-                case 1: //multiply
-                    RunningTotal = RunningTotal * SelectNumber;
-                    break;
-                case 2:
-                    RunningTotal = RunningTotal / SelectNumber;
-                    break;
-                case 3:
-                    RunningTotal = RunningTotal - SelectNumber;
-                    break;
-                case 4:
-                    RunningTotal = RunningTotal + SelectNumber;
-                    break;
-                default:
-                    break;
-            }
-        }
-        method = 3;
-        SelectNumber = 0;
-    }
-
-    public void onMultiply(View v){
-        if (reset == true) {
-            RunningTotal = SelectNumber;
-            reset = false;
-        }
-        else {
-            switch (method) {
-                case 1: //multiply
-                    RunningTotal = RunningTotal * SelectNumber;
-                    break;
-                case 2:
-                    RunningTotal = RunningTotal / SelectNumber;
-                    break;
-                case 3:
-                    RunningTotal = RunningTotal - SelectNumber;
-                    break;
-                case 4:
-                    RunningTotal = RunningTotal + SelectNumber;
-                    break;
-                default:
-                    break;
-            }
-        }
-        method = 1;
-        SelectNumber = 0;
-    }
-
-    public void onDivide(View v){
-        if (reset == true) {
-            RunningTotal = SelectNumber;
-            reset = false;
-        }
-        else {
-            switch (method) {
-                case 1: //multiply
-                    RunningTotal = RunningTotal * SelectNumber;
-                    break;
-                case 2:
-                    RunningTotal = RunningTotal / SelectNumber;
-                    break;
-                case 3:
-                    RunningTotal = RunningTotal - SelectNumber;
-                    break;
-                case 4:
-                    RunningTotal = RunningTotal + SelectNumber;
-                    break;
-                default:
-                    break;
-            }
-        }
-        method = 2;
-        SelectNumber = 0;
-    }
-
-    public void onEquals(View v){
-        if (reset == true) {
-            RunningTotal = SelectNumber;
-            reset = false;
-        }
-        else {
-            switch (method) {
-                case 1: //multiply
-                    RunningTotal = RunningTotal * SelectNumber;
-                    break;
-                case 2:
-                    RunningTotal = RunningTotal / SelectNumber;
-                    break;
-                case 3:
-                    RunningTotal = RunningTotal - SelectNumber;
-                    break;
-                case 4:
-                    RunningTotal = RunningTotal + SelectNumber;
-                    break;
-                default:
-                    break;
-            }
-        }
-        method = 0;
-        SelectNumber = 0;
-        //print on screen
+    public void onNegative (View v) {
+        selectNumber = selectNumber - (selectNumber*2);
         TextView myTextView = (TextView)
                 findViewById(R.id.textView);
-        myTextView.setText(Float.toString(RunningTotal));
-    }
-    public void onAllClear(View v){
-        method = 0;
-        SelectNumber = 0;
-        reset = true;
-        TextView myTextView = (TextView)
-                findViewById(R.id.textView);
-        myTextView.setText(Integer.toString(0));
-
+        myTextView.setText(Double.toString(selectNumber));
     }
 
+    public void onOperator (View v) {
+        if (reset == true) {
+            runningTotal = selectNumber;
+            reset = false;
+        } else {
+            switch (operator) {
+                case 1: //multiply
+                    runningTotal = runningTotal * selectNumber;
+                    break;
+                case 2:
+                    runningTotal = runningTotal / selectNumber;
+                    break;
+                case 3:
+                    runningTotal = runningTotal - selectNumber;
+                    break;
+                case 4:
+                    runningTotal = runningTotal + selectNumber;
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        containsDecimal = false; //reset checkForDecimal
+        i = 1;
+
+        Button button = (Button) v;
+        String bText = button.getText().toString(); //get value from button
+        if (bText.equals("X")) {
+            operator = 1;
+            selectNumber = 0;
+        } else if (bText.equals("/")) {
+            operator = 2;
+            selectNumber = 0;
+        } else if (bText.equals("+")) {
+            operator = 4;
+            selectNumber = 0;
+        } else if (bText.equals("-")) {
+            operator = 3;
+            selectNumber = 0;
+        } else if (bText.equals("=")) {
+            operator = 0;
+            selectNumber = 0;
+            //print on screen
+            TextView myTextView = (TextView)
+                    findViewById(R.id.textView);
+            myTextView.setText(Double.toString(runningTotal));
+        } else if (bText.equals("AC")) {
+            operator = 0;
+            selectNumber = 0;
+            reset = true;
+            //print 0 on screen
+            TextView myTextView = (TextView)
+                    findViewById(R.id.textView);
+            myTextView.setText(Integer.toString(0));
+        }
+
+    }
 }
